@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hosita X Ram — recuerdos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --rosa: #e7a0a0; --crema: #fff4df; --crema-2: #f3dfc3;
+      --marron: #8b5a45; --marron-oscuro: #5a3428;
+      --turquesa: #71c8c2; --azul: #31496f; --azul-suave: #6f83a7;
+      --amarillo: #f0c84b; --amarillo-suave: #f7dd83;
+      --mesa-1: #3e2518; --mesa-2: #4f3120; --mesa-3: #5f3d28;
+      --mesa-4: #6e4a30; --mesa-5: #3a2214;
+      --papel: #fffaf0; --papel-sombra: #efe0c5;
+      --tinta: #3b2730; --sello: #c65b58;
+    }
+    html, body { min-height: 100%; }
+    body {
+      font-family: "Patrick Hand", Georgia, serif;
+      color: var(--tinta);
+      overflow-x: hidden;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(240,200,75,0.07), transparent 30%),
+        radial-gradient(ellipse at 85% 15%, rgba(113,200,194,0.08), transparent 28%),
+        radial-gradient(ellipse at 80% 85%, rgba(49,73,111,0.10), transparent 35%),
+        radial-gradient(ellipse at 10% 80%, rgba(198,91,88,0.06), transparent 28%),
+        linear-gradient(175deg,
+          var(--mesa-1) 0%, var(--mesa-2) 12%, var(--mesa-3) 28%,
+          var(--mesa-2) 38%, var(--mesa-4) 52%, var(--mesa-3) 64%,
+          var(--mesa-2) 76%, var(--mesa-1) 88%, var(--mesa-5) 100%);
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none;
+      background:
+        repeating-linear-gradient(1deg,
+          transparent 0px, transparent 3px,
+          rgba(255,255,255,0.022) 3px, rgba(255,255,255,0.022) 4px,
+          transparent 4px, transparent 14px,
+          rgba(0,0,0,0.04) 14px, rgba(0,0,0,0.04) 15px,
+          transparent 15px, transparent 38px),
+        repeating-linear-gradient(179deg,
+          transparent 0px, rgba(255,255,255,0.012) 1px,
+          transparent 2px, transparent 80px);
+      mix-blend-mode: overlay; z-index: 0;
+    }
+    body::after {
+      content: ""; position: fixed; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 50% 42%, rgba(255,235,180,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.38));
+      z-index: 0;
+    }
+    .mesa {
+      min-height: 100vh; position: relative;
+      padding: 28px 18px 48px; isolation: isolate; overflow: hidden;
+    }
+    .mesa::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        repeating-linear-gradient(3deg,
+          transparent 0px, transparent 55px,
+          rgba(20,8,2,0.07) 55px, rgba(20,8,2,0.07) 56px,
+          transparent 56px, transparent 130px,
+          rgba(255,255,255,0.03) 130px, rgba(255,255,255,0.03) 131px);
+    }
+    .mesa::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(circle at center, transparent 18%, rgba(16,8,7,0.34));
+      pointer-events: none; z-index: -1;
+    }
+    .contenedor {
+      width: min(1180px, 100%); min-height: 980px;
+      margin: 0 auto; position: relative; z-index: 2;
+    }
+
+    /* ===== ANIMACIONES DE ENTRADA ===== */
+    @keyframes entradaTitulo {
+      from { opacity: 0; transform: rotate(-2.5deg) translateY(-40px) scale(0.92); }
+      to   { opacity: 1; transform: rotate(-2.5deg) translateY(0) scale(1); }
+    }
+    @keyframes entradaPolaroid {
+      from { opacity: 0; transform: rotate(var(--rot)) translateY(60px) scale(0.88); filter: blur(4px); }
+      to   { opacity: 1; transform: rotate(var(--rot)) translateY(0) scale(1); filter: blur(0px); }
+    }
+    @keyframes entradaSobre {
+      from { opacity: 0; transform: translateX(-50%) rotate(-2deg) translateY(50px) scale(0.9); }
+      to   { opacity: 1; transform: translateX(-50%) rotate(-2deg) translateY(0) scale(1); }
+    }
+    @keyframes entradaDetalle {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 0.95; transform: scale(1); }
+    }
+    @keyframes entradaSimbolo {
+      from { opacity: 0; transform: scale(0) rotate(-30deg); }
+      to   { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+    @keyframes titilar {
+      0%, 100% { transform: scale(0.8); opacity: 0.45; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
+    @keyframes mecer {
+      0%, 100% { transform: rotate(-8deg) scale(1); }
+      50% { transform: rotate(8deg) scale(1.08); }
+    }
+    @keyframes latir {
+      0%, 100% { transform: scale(1); }
+      30% { transform: scale(1.28); }
+      60% { transform: scale(0.95); }
+    }
+    @keyframes girar {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes flotar {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+      15%  { opacity: 1; }
+      100% { transform: translateY(-200px) rotate(22deg); opacity: 0; }
+    }
+
+    /* TITULO */
+    .titulo-wrap {
+      display: flex; justify-content: center;
+      margin-bottom: 14px; position: relative; z-index: 5;
+    }
+    .titulo {
+      position: relative; width: min(560px, 92vw);
+      padding: 22px 26px 18px; text-align: center;
+      transform: rotate(-2.5deg);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.2)),
+        repeating-linear-gradient(0deg, transparent 0 24px, rgba(164,124,86,0.08) 24px 25px),
+        linear-gradient(180deg, var(--papel), var(--papel-sombra));
+      border-radius: 6px;
+      box-shadow: 0 12px 20px rgba(0,0,0,0.16), 0 24px 48px rgba(24,10,4,0.18);
+      border: 1px solid rgba(120,85,58,0.15);
+      opacity: 0;
+      animation: entradaTitulo 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
+    }
+    .titulo::before, .titulo::after {
+      content: ""; position: absolute; width: 78px; height: 18px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.20), transparent 35%), rgba(255,240,190,0.72);
+      border: 1px solid rgba(140,120,86,0.16);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      top: -9px; z-index: 2;
+    }
+    .titulo::before { left: 18px; transform: rotate(-12deg); }
+    .titulo::after  { right: 18px; transform: rotate(11deg); }
+    .titulo h1 {
+      font-family: "Caveat", cursive; font-size: clamp(2.8rem, 6vw, 5.1rem);
+      font-weight: 700; line-height: 0.9; color: var(--marron-oscuro);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+    }
+    .titulo p {
+      margin-top: 8px; font-family: "Caveat", cursive;
+      font-size: clamp(1.28rem, 2.5vw, 1.8rem); color: var(--azul); opacity: 0.96;
+    }
+
+    .superficie-mesa {
+      width: min(1080px, 96vw); height: 830px;
+      margin: 16px auto 0; position: relative;
+    }
+
+    /* DETALLES DE MESA */
+    .detalle {
+      position: absolute; pointer-events: none; z-index: 1; opacity: 0;
+    }
+    .taza {
+      width: 82px; height: 68px; left: 5%; bottom: 20%;
+      border-radius: 8px 8px 24px 24px;
+      background: linear-gradient(180deg, #f5ede0 0%, #e2c9a8 60%, #d4b48a 100%);
+      border: 2px solid rgba(93,48,25,0.22);
+      box-shadow: 0 18px 22px rgba(24,10,4,0.17), inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -3px 6px rgba(0,0,0,0.08);
+      transform: rotate(8deg);
+      animation: entradaDetalle 0.7s ease 1.6s forwards;
+    }
+    .taza::before {
+      content: "☕"; position: absolute; top: 4px; left: 50%;
+      transform: translateX(-50%); font-size: 1.1rem; opacity: 0.7;
+    }
+    .taza::after {
+      content: ""; position: absolute;
+      width: 26px; height: 32px; right: -19px; top: 14px;
+      border: 5px solid rgba(242,222,196,0.9); border-left: none;
+      border-radius: 0 22px 22px 0; box-shadow: 2px 0 4px rgba(0,0,0,0.06);
+    }
+    .platito {
+      width: 96px; height: 14px; left: calc(5% - 7px); bottom: calc(20% - 10px);
+      border-radius: 50%;
+      background: linear-gradient(180deg, #e8d0b0, #c9a878);
+      box-shadow: 0 8px 14px rgba(0,0,0,0.18); transform: rotate(8deg);
+      animation: entradaDetalle 0.7s ease 1.5s forwards;
+    }
+    .lapiz {
+      width: 190px; height: 11px; right: 6%; bottom: 15%;
+      border-radius: 2px 8px 8px 2px;
+      background: linear-gradient(90deg,
+        #c84f2e 0 6%, #e8c485 6% 10%, var(--amarillo) 10% 64%,
+        #c8a730 64% 68%, var(--turquesa) 68% 80%, #5bb8b2 80% 85%,
+        #f4dfaa 85% 92%, var(--azul) 92% 100%);
+      box-shadow: 0 11px 17px rgba(24,10,4,0.18), inset 0 2px 0 rgba(255,255,255,0.22);
+      transform: rotate(-16deg);
+      animation: entradaDetalle 0.7s ease 1.7s forwards;
+    }
+    .libro {
+      width: 110px; height: 78px; right: 4%; top: 14%;
+      border-radius: 4px 8px 8px 4px;
+      background: linear-gradient(180deg, #e85858 0%, #c84040 100%);
+      border: 1.5px solid rgba(80,20,20,0.2);
+      box-shadow: 0 16px 28px rgba(0,0,0,0.22), -4px 0 0 #9e3030, inset 0 2px 4px rgba(255,255,255,0.15);
+      transform: rotate(5deg);
+      animation: entradaDetalle 0.7s ease 1.8s forwards;
+    }
+    .libro::before {
+      content: "♡"; position: absolute; inset: 0;
+      display: grid; place-items: center;
+      font-size: 2rem; color: rgba(255,255,255,0.45);
+    }
+    .libro::after {
+      content: ""; position: absolute; left: 10px; top: 8px;
+      bottom: 8px; width: 2px;
+      background: rgba(255,255,255,0.2); border-radius: 1px;
+    }
+    .brillito {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: rgba(113,200,194,0.88);
+      box-shadow: 0 0 18px rgba(240,200,75,0.85);
+      animation: titilar 2.8s ease-in-out infinite, entradaDetalle 0.5s ease 2s forwards;
+    }
+    .brillito.uno  { top: 25%; left: 9%; }
+    .brillito.dos  { top: 58%; right: 12%; animation-delay: 0.6s; }
+    .brillito.tres { bottom: 11%; left: 35%; animation-delay: 1.2s; }
+
+    /* SIMBOLOGIAS */
+    .simbologia {
+      position: absolute; pointer-events: none;
+      font-style: normal; line-height: 1; opacity: 0; user-select: none; z-index: 1;
+    }
+    .simbologia.est1 {
+      top: 8%; left: 12%; font-size: 1.1rem;
+      color: rgba(240,200,75,0.72); text-shadow: 0 0 12px rgba(240,200,75,0.4);
+      animation: entradaSimbolo 0.6s ease 2.0s forwards, titilar 4s ease-in-out 2.6s infinite;
+    }
+    .simbologia.est2 {
+      top: 6%; right: 16%; font-size: 0.85rem;
+      color: rgba(113,200,194,0.80); text-shadow: 0 0 10px rgba(113,200,194,0.4);
+      animation: entradaSimbolo 0.6s ease 2.3s forwards, titilar 3.5s ease-in-out 2.9s infinite;
+    }
+    .simbologia.not1 {
+      top: 3%; left: 42%; font-size: 1.4rem;
+      color: rgba(231,160,160,0.78);
+      animation: entradaSimbolo 0.6s ease 2.5s forwards, mecer 5s ease-in-out 3s infinite;
+    }
+    .simbologia.not2 {
+      bottom: 5%; right: 7%; font-size: 1.1rem;
+      color: rgba(231,160,160,0.65);
+      animation: entradaSimbolo 0.6s ease 2.7s forwards, mecer 6s ease-in-out 3.3s infinite;
+    }
+    .simbologia.cor1 {
+      top: 46%; left: 3%; font-size: 1.3rem;
+      color: rgba(198,91,88,0.7); text-shadow: 0 0 14px rgba(198,91,88,0.3);
+      animation: entradaSimbolo 0.6s ease 2.1s forwards, latir 2.4s ease-in-out 2.7s infinite;
+    }
+    .simbologia.cor2 {
+      bottom: 8%; left: 14%; font-size: 0.9rem;
+      color: rgba(231,160,160,0.80);
+      animation: entradaSimbolo 0.6s ease 2.8s forwards, latir 2s ease-in-out 3.4s infinite;
+    }
+    .simbologia.tref {
+      top: 72%; right: 5%; font-size: 1.05rem;
+      color: rgba(113,200,194,0.70);
+      animation: entradaSimbolo 0.6s ease 3.0s forwards, girar 12s linear 3.5s infinite;
+    }
+    .simbologia.marg {
+      top: 16%; right: 5%; font-size: 1.0rem;
+      color: rgba(240,200,75,0.65);
+      animation: entradaSimbolo 0.6s ease 3.2s forwards, mecer 7s ease-in-out 3.8s infinite;
+    }
+    .simbologia.diam {
+      bottom: 22%; right: 3%; font-size: 0.85rem;
+      color: rgba(111,131,167,0.75);
+      animation: entradaSimbolo 0.6s ease 3.4s forwards, titilar 3s ease-in-out 3.9s infinite;
+    }
+
+    /* POLAROIDS */
+    .polaroid {
+      width: clamp(176px, 20vw, 244px); padding: 12px 12px 66px;
+      position: absolute;
+      background:
+        linear-gradient(180deg, #fffdf8, var(--crema-2)),
+        linear-gradient(135deg, rgba(113,200,194,0.12), transparent 42%, rgba(240,200,75,0.11));
+      border-radius: 5px;
+      box-shadow: 0 16px 24px rgba(0,0,0,0.21), 0 34px 58px rgba(30,13,6,0.22);
+      transform: rotate(var(--rot));
+      transition:
+        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s ease, filter 0.35s ease;
+      cursor: pointer; z-index: 4;
+      opacity: 0;
+      animation: entradaPolaroid 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay-p, 0.5s) forwards;
+    }
+    .polaroid::before {
+      content: ""; position: absolute; inset: 0; border-radius: inherit;
+      background: linear-gradient(120deg, rgba(255,255,255,0.5), transparent 42%);
+      pointer-events: none;
+    }
+    .polaroid::after {
+      content: ""; position: absolute;
+      left: 18px; right: 18px; bottom: -18px;
+      height: 26px; border-radius: 50%;
+      background: rgba(0,0,0,0.18); filter: blur(13px); z-index: -1;
+      transition: filter 0.35s ease, opacity 0.35s ease;
+    }
+    .polaroid:hover {
+      transform: translateY(-18px) scale(1.05) rotate(var(--rot-hover));
+      box-shadow:
+        0 28px 38px rgba(0,0,0,0.26),
+        0 52px 80px rgba(30,13,6,0.28),
+        0 0 0 2px rgba(240,200,75,0.18);
+      filter: brightness(1.04) saturate(1.08);
+      z-index: 20;
+    }
+    .polaroid:hover::after { filter: blur(20px); opacity: 0.7; }
+    .polaroid:hover .foto::before { opacity: 1; }
+    .foto {
+      width: 100%; aspect-ratio: 1/1; border-radius: 3px; overflow: hidden;
+      background: linear-gradient(135deg, #ecd4bd, var(--crema));
+      position: relative; box-shadow: inset 0 0 0 1px rgba(70,40,23,0.08);
+    }
+    .foto::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.35s ease; z-index: 2; pointer-events: none;
+    }
+    .foto img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      filter: saturate(0.92) contrast(0.98) brightness(1.04);
+      transition: filter 0.35s ease, transform 0.35s ease;
+    }
+    .polaroid:hover .foto img {
+      filter: saturate(1.05) contrast(1.02) brightness(1.07);
+      transform: scale(1.03);
+    }
+    .foto::after {
+      content: ""; position: absolute; inset: 0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.18), transparent 45%),
+        radial-gradient(circle at center, transparent 58%, rgba(82,42,20,0.12));
+      pointer-events: none;
+    }
+    .caption {
+      position: absolute; left: 12px; right: 12px; bottom: 10px;
+      min-height: 48px; padding: 0 6px;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; font-family: "Caveat", cursive;
+      font-size: clamp(1.02rem, 1.48vw, 1.38rem); font-weight: 700;
+      line-height: 0.92; color: var(--marron-oscuro);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.55);
+      letter-spacing: 0.01em; transform: rotate(-1deg);
+      white-space: normal; overflow-wrap: break-word; text-wrap: balance;
+      transition: color 0.25s ease;
+    }
+    .polaroid:hover .caption { color: #3d1e10; }
+    .foto2 .caption, .foto5 .caption { font-size: clamp(1.12rem, 1.65vw, 1.5rem); }
+    .cinta {
+      position: absolute; width: 58px; height: 19px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.17), transparent 40%), rgba(255,238,169,0.72);
+      border: 1px solid rgba(158,132,92,0.2);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.09);
+      backdrop-filter: blur(1px); z-index: 6;
+    }
+    .cinta.arriba-izq { top: -8px;  left: 17px; transform: rotate(-18deg); }
+    .cinta.arriba-der { top: -10px; right: 16px; transform: rotate(16deg); }
+    .cinta.centro { top: -10px; left: 50%; transform: translateX(-50%) rotate(5deg); }
+
+    .foto1 { --rot: -8deg; --rot-hover: -4deg; --delay-p: 0.5s;  left: 5%;   top: 56px;         z-index: 4; }
+    .foto2 { --rot:  4deg; --rot-hover:  1deg; --delay-p: 0.75s; left: 30%;  top: 18px; width: clamp(200px,22vw,270px); z-index: 7; }
+    .foto3 { --rot:  9deg; --rot-hover:  5deg; --delay-p: 1.0s;  right: 8%;  top: 62px;         z-index: 3; }
+    .foto4 { --rot: -4deg; --rot-hover: -1deg; --delay-p: 1.2s;  left: 18%;  bottom: 250px;     z-index: 5; }
+    .foto5 { --rot:  7deg; --rot-hover:  3deg; --delay-p: 1.4s;  right: 18%; bottom: 260px; width: clamp(190px,21vw,258px); z-index: 6; }
+
+    /* SOBRE */
+    .carta-zona {
+      position: absolute; left: 50%; bottom: 10px;
+      transform: translateX(-50%) rotate(-2deg);
+      width: min(420px,88vw); min-height: 220px;
+      display: grid; place-items: center; z-index: 2;
+      opacity: 0;
+      animation: entradaSobre 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards;
+    }
+    .sobre {
+      width: min(360px,82vw); height: 225px;
+      border: none; background: transparent; cursor: pointer; position: relative;
+      filter: drop-shadow(0 18px 26px rgba(24,10,4,0.35));
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+    }
+    .sobre:hover {
+      transform: translateY(-10px) rotate(-2deg) scale(1.02);
+      filter: drop-shadow(0 26px 34px rgba(24,10,4,0.42));
+    }
+    .sobre::after {
+      content: ""; position: absolute;
+      left: 36px; right: 36px; bottom: -15px;
+      height: 28px; background: rgba(0,0,0,0.17);
+      filter: blur(13px); border-radius: 50%; z-index: -1;
+    }
+    .papel-asoma {
+      position: absolute; left: 34px; right: 34px; top: 0; height: 116px;
+      background:
+        linear-gradient(rgba(255,255,255,0.48), rgba(255,255,255,0.48)),
+        repeating-linear-gradient(0deg, transparent 0 25px, rgba(160,92,55,0.12) 26px),
+        #fff4df;
+      border-radius: 8px 8px 3px 3px; z-index: 1;
+      display: grid; place-items: start center; padding-top: 17px;
+      color: var(--marron-oscuro); font-family: "Caveat", cursive;
+      font-size: 1.62rem; font-weight: 700; letter-spacing: 0.02em;
+    }
+    .sobre-base {
+      position: absolute; inset: 42px 0 0;
+      background: linear-gradient(180deg, #f3d3a4, #e5b982);
+      border-radius: 8px; overflow: hidden;
+      border: 1px solid rgba(105,59,31,0.22);
+    }
+    .sobre-base::before, .sobre-base::after {
+      content: ""; position: absolute; bottom: 0;
+      width: 50%; height: 100%; background: #deb072;
+    }
+    .sobre-base::before { left: 0;  clip-path: polygon(0 0, 100% 55%, 0 100%); }
+    .sobre-base::after  { right: 0; clip-path: polygon(100% 0, 0 55%, 100% 100%); }
+    .solapa {
+      position: absolute; left: 0; right: 0; top: 42px; height: 112px;
+      background: linear-gradient(180deg, #f4d49e, #e7b878);
+      clip-path: polygon(0 0, 50% 82%, 100% 0);
+      transform-origin: top center; transition: transform 0.45s ease;
+      border-radius: 8px 8px 0 0; z-index: 3;
+    }
+    .sobre:hover .solapa { transform: rotateX(30deg); }
+    .sello {
+      position: absolute; left: 50%; top: 118px; width: 54px; height: 54px;
+      transform: translateX(-50%); border-radius: 50%;
+      background: linear-gradient(135deg, var(--sello), var(--rosa));
+      z-index: 5; display: grid; place-items: center;
+      color: #ffe8d2; font-size: 1.68rem;
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,0.12), 0 0 0 3px rgba(198,91,88,0.2), 0 0 16px rgba(198,91,88,0.25);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .sobre:hover .sello {
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,0.12), 0 0 0 4px rgba(240,200,75,0.3), 0 0 22px rgba(240,200,75,0.35);
+      transform: translateX(-50%) scale(1.08);
+    }
+    .ayuda {
+      margin-top: 12px; text-align: center;
+      color: var(--amarillo-suave); font-family: "Caveat", cursive;
+      font-size: 1.35rem; text-shadow: 0 2px 8px rgba(0,0,0,0.36);
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed; inset: 0; display: grid; place-items: center;
+      padding: 24px; background: rgba(22,15,24,0.66); backdrop-filter: blur(7px);
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 40;
+    }
+    .modal.abierto { opacity: 1; pointer-events: auto; }
+    .carta {
+      width: min(680px,96vw); max-height: 86vh; overflow-y: auto;
+      position: relative; padding: clamp(30px,6vw,58px); border-radius: 20px;
+      border: 1px solid rgba(120,65,33,0.24);
+      background:
+        linear-gradient(rgba(255,255,255,0.63), rgba(255,255,255,0.63)),
+        repeating-linear-gradient(0deg, transparent 0 31px, rgba(142,82,48,0.16) 32px),
+        #fff4df;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+      transform: translateY(30px) scale(0.96) rotate(-1deg);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal.abierto .carta { transform: translateY(0) scale(1) rotate(-1deg); }
+    .carta::before {
+      content: "♥"; position: absolute; right: 58px; bottom: 34px;
+      color: rgba(49,73,111,0.13); font-size: 6rem; pointer-events: none;
+    }
+    .cerrar {
+      position: absolute; top: 14px; right: 14px;
+      width: 38px; height: 38px; border: none; border-radius: 50%;
+      background: rgba(99,48,26,0.12); color: #5b2f1d;
+      font-size: 1.4rem; cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .cerrar:hover { background: rgba(99,48,26,0.2); transform: rotate(8deg); }
+    .carta h2 {
+      font-family: "Caveat", cursive; font-size: clamp(2.35rem,5.2vw,3.6rem);
+      font-weight: 700; margin-bottom: 18px; color: var(--azul);
+    }
+    .carta p {
+      font-family: "Patrick Hand", cursive; font-size: clamp(1.08rem,2.2vw,1.28rem);
+      line-height: 1.85; margin-bottom: 18px; color: var(--tinta);
+    }
+    .mini-recuerdos {
+      display: grid; grid-template-columns: repeat(5,1fr);
+      gap: 8px; margin: 24px 0 20px;
+    }
+    .mini-recuerdos img {
+      width: 100%; aspect-ratio: 1/1; object-fit: cover;
+      border-radius: 8px; box-shadow: 0 8px 16px rgba(42,18,8,0.16);
+      transition: transform 0.25s ease;
+    }
+    .mini-recuerdos img:hover { transform: scale(1.07); }
+    .firma {
+      margin-top: 26px; text-align: right;
+      font-family: "Caveat", cursive; font-size: 2rem; color: #7c3428;
+    }
+
+    /* CORAZONES FLOTANTES */
+    .corazon-flotante {
+      position: absolute; font-size: 1.35rem;
+      animation: flotar 7s linear infinite; pointer-events: none; z-index: 1;
+    }
+    .corazon-flotante:nth-child(1) { left: 8%;  top: 84%; color: rgba(240,200,75,0.62);    animation-delay: 0s; }
+    .corazon-flotante:nth-child(2) { left: 88%; top: 76%; color: rgba(231,160,160,0.55);   animation-delay: 1.8s; }
+    .corazon-flotante:nth-child(3) { left: 18%; top: 64%; color: rgba(113,200,194,0.55);   animation-delay: 3s; }
+    .corazon-flotante:nth-child(4) { left: 74%; top: 59%; color: rgba(240,200,75,0.62);    animation-delay: 4.3s; }
+    .corazon-flotante:nth-child(5) { left: 44%; top: 90%; font-size: 0.9rem; color: rgba(198,91,88,0.5); animation-delay: 2.5s; }
+    .corazon-flotante:nth-child(6) { left: 62%; top: 82%; font-size: 1rem;   color: rgba(240,200,75,0.45); animation-delay: 5.5s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .contenedor { min-height: auto; }
+      .superficie-mesa {
+        height: auto; display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 22px; place-items: center; padding: 12px 0 28px;
+      }
+      .polaroid, .carta-zona, .detalle, .simbologia {
+        position: relative; left: auto; right: auto; top: auto; bottom: auto;
+      }
+      .polaroid { width: min(250px,42vw); }
+      .foto2, .foto5 { width: min(260px,44vw); }
+      .carta-zona { grid-column: 1/-1; transform: rotate(-2deg); margin-top: 26px; animation: none; opacity: 1; }
+      .taza, .platito, .lapiz, .brillito, .libro, .simbologia { display: none; }
+    }
+    @media (max-width: 560px) {
+      .mesa { padding: 20px 10px 34px; }
+      .titulo { padding: 18px 16px 15px; }
+      .titulo h1 { font-size: 2.45rem; }
+      .titulo p { font-size: 1.2rem; }
+      .superficie-mesa { grid-template-columns: 1fr; }
+      .polaroid, .foto2, .foto5 { width: min(285px,84vw); }
+      .mini-recuerdos { grid-template-columns: repeat(3,1fr); }
+    }
+  </style>
+</head>
+<body>
+  <main class="mesa">
+    <span class="corazon-flotante">♡</span>
+    <span class="corazon-flotante">♡</span>
+    <span class="corazon-flotante">♡</span>
+    <span class="corazon-flotante">♡</span>
+    <span class="corazon-flotante">♡</span>
+    <span class="corazon-flotante">♡</span>
+
+    <section class="contenedor">
+      <div class="titulo-wrap">
+        <header class="titulo">
+          <h1>Hosita X Ram</h1>
+          <p>recuerdos bonitos de una tarde juntitos ♥</p>
+        </header>
+      </div>
+
+      <section class="superficie-mesa" aria-label="Mesa con recuerdos">
+        <!-- Detalles de mesa -->
+        <span class="detalle platito"></span>
+        <span class="detalle taza"></span>
+        <span class="detalle lapiz"></span>
+        <span class="detalle libro"></span>
+        <span class="detalle brillito uno"></span>
+        <span class="detalle brillito dos"></span>
+        <span class="detalle brillito tres"></span>
+
+        <!-- Simbologías -->
+        <em class="simbologia est1">✦</em>
+        <em class="simbologia est2">✧</em>
+        <em class="simbologia not1">♪</em>
+        <em class="simbologia not2">♫</em>
+        <em class="simbologia cor1">♥</em>
+        <em class="simbologia cor2">❤</em>
+        <em class="simbologia tref">✿</em>
+        <em class="simbologia marg">✾</em>
+        <em class="simbologia diam">◇</em>
+
+        <!-- Fotos -->
+        <article class="polaroid foto1">
+          <div class="cinta arriba-izq"></div>
+          <div class="foto"><img src="https://i.postimg.cc/pdKrkryt/Couple-watching-football-match-202605302243.jpg" alt="Recuerdo 1"></div>
+          <p class="caption">Me encanta tu compañía</p>
+        </article>
+
+        <article class="polaroid foto2">
+          <div class="cinta centro"></div>
+          <div class="foto"><img src="https://i.postimg.cc/Pxhx7HvR/Couple-watching-football-match-202605302242-(1).jpg" alt="Recuerdo 2"></div>
+          <p class="caption">Eres lo mejor</p>
+        </article>
+
+        <article class="polaroid foto3">
+          <div class="cinta arriba-der"></div>
+          <div class="foto"><img src="https://i.postimg.cc/JnmnF8HF/Couple-watching-match-in-living-202605302242-(1).jpg" alt="Recuerdo 3"></div>
+          <p class="caption">Nuestro momento especial</p>
+        </article>
+
+        <article class="polaroid foto4">
+          <div class="cinta arriba-izq"></div>
+          <div class="foto"><img src="https://i.postimg.cc/xCYCZQN7/Couple-watching-match-in-living-202605302242.jpg" alt="Recuerdo 4"></div>
+          <p class="caption">Me tienes encantada</p>
+        </article>
+
+        <article class="polaroid foto5">
+          <div class="cinta arriba-der"></div>
+          <div class="foto"><img src="https://i.postimg.cc/76D6R4Jj/Couple-watching-football-match-202605302242.jpg" alt="Recuerdo 5"></div>
+          <p class="caption">Te Amo</p>
+        </article>
+
+        <!-- Carta -->
+        <section class="carta-zona">
+          <button class="sobre" id="abrirCarta" aria-label="Abrir carta de amor">
+            <div class="papel-asoma">Para ti ♥</div>
+            <div class="sobre-base"></div>
+            <div class="solapa"></div>
+            <div class="sello">♥</div>
+          </button>
+          <p class="ayuda">Haz click en la carta para abrirla</p>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modalCarta" aria-hidden="true">
+    <article class="carta" role="dialog" aria-modal="true" aria-labelledby="tituloCarta">
+      <button class="cerrar" id="cerrarCarta" aria-label="Cerrar carta">×</button>
+      <h2 id="tituloCarta">Mi carta para ti</h2>
+      <p>Este mes ha sido el mes más hermoso de todos.</p>
+      <p>Quiero decirte lo especial que eres para mí. Cada noche que compartimos, cada día en el que nos amamos, me hizo sentir algo único y muy bonito.</p>
+      <div class="mini-recuerdos" aria-label="Mini galería de recuerdos">
+        <img src="https://i.postimg.cc/pdKrkryt/Couple-watching-football-match-202605302243.jpg" alt="Mini recuerdo 1">
+        <img src="https://i.postimg.cc/Pxhx7HvR/Couple-watching-football-match-202605302242-(1).jpg" alt="Mini recuerdo 2">
+        <img src="https://i.postimg.cc/JnmnF8HF/Couple-watching-match-in-living-202605302242-(1).jpg" alt="Mini recuerdo 3">
+        <img src="https://i.postimg.cc/xCYCZQN7/Couple-watching-match-in-living-202605302242.jpg" alt="Mini recuerdo 4">
+        <img src="https://i.postimg.cc/76D6R4Jj/Couple-watching-football-match-202605302242.jpg" alt="Mini recuerdo 5">
+      </div>
+      <p>Tu presencia es una de las cosas más lindas que tengo. Me alegras tanto el día, y has hecho tanto por hacerme sentir querida y amada, que ya no me quedan palabras suficientes para describirlo.</p>
+      <p>Quiero agradecerte por todo el amor que me has dado, por cada gesto, por cada momento y por hacerme sentir tan especial. También quiero prometerte que voy a cuidarte mucho, que voy a estar para ti y que haré todo lo posible para que siempre te sientas sano, salvo y amado.</p>
+      <p>Quiero poder contarte todos mis secretos y compartir contigo incluso las partes más profundas de mí. Aunque todavía nos queda mucho por delante, deseo seguir construyendo esta confianza contigo, entregarte mi cariño con sinceridad y caminar juntos hacia una felicidad que sea de los dos.</p>
+      <p class="firma">Con mucho amor,<br>Hosita ♥</p>
+    </article>
+  </div>
+
+  <script>
+    const abrirCarta = document.getElementById("abrirCarta");
+    const cerrarCarta = document.getElementById("cerrarCarta");
+    const modalCarta = document.getElementById("modalCarta");
+    const abrir = () => { modalCarta.classList.add("abierto"); modalCarta.setAttribute("aria-hidden","false"); };
+    const cerrar = () => { modalCarta.classList.remove("abierto"); modalCarta.setAttribute("aria-hidden","true"); };
+    abrirCarta.addEventListener("click", abrir);
+    cerrarCarta.addEventListener("click", cerrar);
+    modalCarta.addEventListener("click", e => { if (e.target === modalCarta) cerrar(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") cerrar(); });
+  </script>
+</body>
+</html>
